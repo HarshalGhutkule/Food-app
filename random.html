@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cabin&family=Montserrat&display=swap" rel="stylesheet">
+    <title>Random</title>
+    <link rel="stylesheet" href="./styles/navbar.css">
+</head>
+<body>
+    <div class="container"></div>
+    <div id="mealDetail1"></div>
+</body>
+</html>
+<script type="module">
+    import {navbar,debounce} from "./components/navbar.js";
+
+    import {showLatest,randomData} from "./Scripts/append.js";
+    
+    let container = document.querySelector(".container");
+
+    container.innerHTML = navbar();
+    
+    let searchMeal = document.getElementById("searchHere");
+    searchMeal.addEventListener("input",debounce);
+
+    let showlist = document.getElementById("mealDetail1");
+
+    let url = "https://www.themealdb.com/api/json/v1/1/random.php";
+
+    let responce = showLatest(url);
+
+    responce.then((res)=>{
+        console.log(res.meals);
+        randomData(res.meals,showlist);
+    })
+    .catch((err)=>{
+        console.log(err);
+    })
+</script>

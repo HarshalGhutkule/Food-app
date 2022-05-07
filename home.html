@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cabin&family=Montserrat&display=swap" rel="stylesheet">
+    <title>food app</title>
+    <link rel="stylesheet" href="./styles/navbar.css">
+</head>
+<body>
+    <div class="container"></div>
+    <div id="searchResult"></div>
+    <div id="mealDetail"></div>
+    <h1 id="h1">Simple and Tasty Recipes</h1>
+</body>
+</html>
+<script src="./components/navbar.js" type="module"></script>
+<script type="module">
+
+    import {navbar,debounce} from "./components/navbar.js";
+
+    import {randomData} from "./Scripts/append.js";
+    
+    let container = document.querySelector(".container");
+
+    container.innerHTML = navbar();
+
+    let searchMeal = document.getElementById("searchHere");
+    searchMeal.addEventListener("input",debounce);
+
+    let data = JSON.parse(localStorage.getItem("mealData"));
+    
+    if(data.length != 0){
+        document.getElementById("mealDetail").style.display = "grid";
+        document.getElementById("h1").style.display = "none";
+        document.getElementById("searchResult").style.display = "none";
+
+        let showlist = document.getElementById("mealDetail");
+        randomData(data,showlist);
+        if(data.length > 0){
+            data.shift();
+            localStorage.setItem("mealData",JSON.stringify(data));
+        }
+    }
+</script>
